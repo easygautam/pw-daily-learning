@@ -57,4 +57,11 @@ export class AppService {
     );
     return res;
   }
+  async getQuestionDetails(questionIdsData) {
+    return await Promise.all(
+      questionIdsData.questionIds.map((questionId) =>
+        this.Question.findById(questionId),
+      ),
+    );
+  }
 }

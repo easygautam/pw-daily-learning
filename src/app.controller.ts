@@ -34,4 +34,9 @@ export class AppController {
   getProblemOfTheDay() {
     return this.appService.getProblemOfTheDay();
   }
+  @Post('/getQuestionDetails')
+  getQuestionDetails(@Body() questionIdsData: any) {
+    console.log(questionIdsData);
+    return this.appService.getQuestionDetails(questionIdsData);
+  }
 }
