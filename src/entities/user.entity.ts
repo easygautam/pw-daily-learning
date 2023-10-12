@@ -14,5 +14,7 @@ export class User {
   mobile: number;
   @Prop({})
   firebaseDeviceToken: string;
+  @Prop({})
+  streak: number;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
