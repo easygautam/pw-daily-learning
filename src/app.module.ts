@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './entities/user.entity';
 import { Question, QuestionSchema } from './entities/question.entity';
+import { DailyTopic, dailyTopicSchema } from './entities/dailyTopic.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { Question, QuestionSchema } from './entities/question.entity';
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
       { name: Question.name, schema: QuestionSchema },
+      { name: DailyTopic.name, schema: dailyTopicSchema }
     ]),
   ],
   controllers: [AppController],

@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { Question } from './entities/question.entity';
+import { DailyTopic } from './entities/dailyTopic.entity';
 
 @Injectable()
 export class AppService {
@@ -11,6 +12,8 @@ export class AppService {
     private readonly UserModel: Model<User>,
     @InjectModel(Question.name)
     private readonly Question: Model<Question>,
+    @InjectModel(DailyTopic.name)
+    private readonly DailyTopic: Model<DailyTopic>,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -36,5 +39,11 @@ export class AppService {
 
   async addQuestion(questionData) {
     return await this.Question.create(questionData);
+  }
+  async addDailyTopic(dailyTopic) {
+    return await this.DailyTopic.create(dailyTopic);
+  }
+  async getDailyTopics() {
+    return await this.DailyTopic.find();
   }
 }

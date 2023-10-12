@@ -17,4 +17,12 @@ export class AppController {
   createuser(@Body() user: any) {
     return this.appService.createUser(user);
   }
+  @Post('/addDailytopic')
+  addDailyTopic(@Body() dailyTopic: any) {
+    return this.appService.addDailyTopic(dailyTopic);
+  }
+  @Get('/getDailyTopicList')
+  getDailyTopicList() {
+    return this.appService.getDailyTopics();
+  }
 }

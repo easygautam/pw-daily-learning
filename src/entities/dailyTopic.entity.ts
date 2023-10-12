@@ -16,9 +16,9 @@ export class DailyTopic {
   dateTime: Date;
   @Prop({})
   status: string;
-  @Prop({})
+  @Prop({ type: Object })
   questions: any;
   @Prop({})
   productSellId: string;
 }
-export const questionSchema = SchemaFactory.createForClass(DailyTopic);
+export const dailyTopicSchema = SchemaFactory.createForClass(DailyTopic);
