@@ -25,13 +25,13 @@ export class AppController {
   getProfile(@Query('userId') userId) {
     return this.appService.getProfile(userId);
   }
-  {
-
-  }
 
   @Get('/getDailyTopicList')
   getDailyTopicList() {
     return this.appService.getDailyTopics();
   }
-  
+  @Get('/get-problem-of-the-day')
+  getProblemOfTheDay() {
+    return this.appService.getProblemOfTheDay();
+  }
 }

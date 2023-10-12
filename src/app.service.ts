@@ -50,4 +50,11 @@ export class AppService {
   async getProfile(userId){
     return await this.UserModel.findById(userId);
   }
+  async getProblemOfTheDay(){
+    const dat = await this.getDailyTopics();
+    const res = dat.filter(
+      (data) => data.dateTime.getDate() === new Date().getDate(),
+    );
+    return res;
+  }
 }
