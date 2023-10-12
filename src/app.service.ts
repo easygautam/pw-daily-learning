@@ -30,6 +30,7 @@ export class AppService {
     if (!userData) {
       return await this.UserModel.create({
         mobile: user.mobile,
+        streak: 0,
       });
     } else {
       console.log(userData);
@@ -45,5 +46,8 @@ export class AppService {
   }
   async getDailyTopics() {
     return await this.DailyTopic.find();
+  }
+  async getProfile(userId){
+    return await this.UserModel.findById(userId);
   }
 }

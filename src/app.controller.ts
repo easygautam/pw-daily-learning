@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -21,8 +21,17 @@ export class AppController {
   addDailyTopic(@Body() dailyTopic: any) {
     return this.appService.addDailyTopic(dailyTopic);
   }
+  @Get('/getprofile')
+  getProfile(@Query('userId') userId) {
+    return this.appService.getProfile(userId);
+  }
+  {
+
+  }
+
   @Get('/getDailyTopicList')
   getDailyTopicList() {
     return this.appService.getDailyTopics();
   }
+  
 }
