@@ -40,8 +40,8 @@ export class AppController {
     return this.appService.getQuestionDetails(questionIdsData);
   }
   @Get('/getSolution')
-  getSolution(@Query('questionId') questionId: any) {
-    return this.appService.getSolution(questionId);
+  getSolution(@Query('dailyTopicId') dailyTopicId, @Query('userId') userId) {
+    return this.appService.getSolution(dailyTopicId, userId);
   }
   @Get('/get-daily-topic-by-id')
   getDailyTopicById(

@@ -34,6 +34,7 @@ export class AppService {
       return await this.UserModel.create({
         mobile: user.mobile,
         streak: 0,
+        rewards: 50,
       });
     } else {
       console.log(userData);
@@ -55,10 +56,16 @@ export class AppService {
   }
   async getProblemOfTheDay(){
     const dat = await this.getDailyTopics();
-    const res = dat.filter(
+    const present = dat.filter(
       (data) => data.dateTime.getDate() === new Date().getDate(),
     );
-    return res;
+    const upcoming = dat.filter(
+      (data) => data.dateTime.getDate() >= new Date().getDate(),
+    );
+    const past = dat.filter(
+      (data) => data.dateTime.getDate() <= new Date().getDate(),
+    );
+    return { present, upcoming, past };
   }
   async getQuestionDetails(questionIdsData) {
     return await Promise.all(
@@ -67,9 +74,7 @@ export class AppService {
       ),
     );
   }
-  async getSolution(questionId){
-    return await this.Question.findById(questionId);
-  }
+ 
   async getDailyTopicById(userId,dailyTopicId){
     let status = 'unattempted';
     const dat = await this.Dtresult.findOne({
@@ -105,11 +110,31 @@ export class AppService {
         totalScore += 1;
       }
     });
-    return await this.Dtresult.create({
+    let rewards = 0;
+    if (totalScore == finalQuestionDetails.length) {
+      await this.UserModel.findByIdAndUpdate(submitObject.userId, {
+        $inc: { rewards: 5 },
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      rewards = 5;
+    }
+    const resultDat =  await this.Dtresult.create({
       totalScore: totalScore,
       userId: submitObject.userId,
       selectedOptions: submitObject.selectedOptions,
       DailyTopicId: submitObject.DailyTopicId,
     });
+    return { resultDat, rewards };
+  }
+  async getSolution(dailyTopicId, userId) {
+    const dailyTopicDetails = await this.getDailyTopicById(
+      userId,
+      dailyTopicId,
+    );
+    const studentSelection = await this.Dtresult.find({
+      userId: userId,
+      DailyTopicId: dailyTopicId,
+    });
+    return { dailyTopicDetails, studentSelection };
   }
 }
