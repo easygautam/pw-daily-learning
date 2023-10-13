@@ -28,5 +28,7 @@ export class DailyTopic {
   topicNotesPdf: string;
   @Prop({})
   topicVideoThumbnail: string;
+  @Prop({})
+  topicNotesName: string;
 }
 export const dailyTopicSchema = SchemaFactory.createForClass(DailyTopic);
