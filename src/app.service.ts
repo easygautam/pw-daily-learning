@@ -80,12 +80,36 @@ export class AppService {
     if (dat) status = 'attempted';
 
     let dailyTopicData = await this.DailyTopic.findById(dailyTopicId);
-    const questionPromises = dailyTopicData.questions.map(
-      async (questionId) => {
-        return await this.Question.findById(questionId);
+    const questionPromises = dailyTopicData.questions.map((questionId) => {
+        return this.Question.findById(questionId);
       });
     // To get the results, you can use Promise.all
     const questions = await Promise.all(questionPromises);
     return { dailyTopicData, status, questions };
+  }
+
+  async submitTest(submitObject) {
+
+    const questionDetails = submitObject.selectedOptions.map((selectedOption) =>
+      this.Question.findById(selectedOption.questionId),
+    );
+    const finalQuestionDetails = await Promise.all(questionDetails);
+    console.log(finalQuestionDetails);
+
+    let totalScore = 0;
+    submitObject.selectedOptions.map((selectedOption, index) => {
+      if (
+        selectedOption.selectedOption ==
+        finalQuestionDetails[index].correctOption
+      ) {
+        totalScore += 1;
+      }
+    });
+    return await this.Dtresult.create({
+      totalScore: totalScore,
+      userId: submitObject.userId,
+      selectedOptions: submitObject.selectedOptions,
+      DailyTopicId: submitObject.DailyTopicId,
+    });
   }
 }

@@ -50,4 +50,8 @@ export class AppController {
   ) {
     return this.appService.getDailyTopicById(userId, dailyTopicId);
   }
+  @Post('/submit-test')
+  submitTest(@Body() submitObject) {
+    return this.appService.submitTest(submitObject)
+  }
 }
