@@ -26,5 +26,7 @@ export class DailyTopic {
   youtubeVideoTitile: string;
   @Prop({})
   topicNotesPdf: string;
+  @Prop({})
+  topicVideoThumbnail: string;
 }
 export const dailyTopicSchema = SchemaFactory.createForClass(DailyTopic);
