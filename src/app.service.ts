@@ -104,22 +104,21 @@ export class AppService {
     console.log(finalQuestionDetails);
 
     let totalScore = 0;
+    let rewards = 0;
+
     submitObject.selectedOptions.map((selectedOption, index) => {
       if (
         selectedOption.selectedOption ==
         finalQuestionDetails[index].correctOption
       ) {
         totalScore += 1;
+        rewards += 10;
       }
     });
-    let rewards = 0;
-    if (totalScore == finalQuestionDetails.length) {
-      await this.UserModel.findByIdAndUpdate(submitObject.userId, {
-        $inc: { rewards: 5 },
-      });
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      rewards = 5;
-    }
+    await this.UserModel.findByIdAndUpdate(submitObject.userId, {
+      $inc: { rewards: rewards },
+    });
+
     const existingResultDat = await this.Dtresult.findOne({
       DailyTopicId: submitObject.DailyTopicId,
       userId: submitObject.userId,
