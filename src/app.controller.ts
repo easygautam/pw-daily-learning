@@ -31,8 +31,8 @@ export class AppController {
     return this.appService.getDailyTopics();
   }
   @Get('/get-problem-of-the-day')
-  getProblemOfTheDay() {
-    return this.appService.getProblemOfTheDay();
+  getProblemOfTheDay(@Query('userId') userId) {
+    return this.appService.getProblemOfTheDay(userId);
   }
   @Post('/getQuestionDetails')
   getQuestionDetails(@Body() questionIdsData: any) {

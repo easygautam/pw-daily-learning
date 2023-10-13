@@ -56,7 +56,7 @@ export class AppService {
   async getProfile(userId){
     return await this.UserModel.findById(userId);
   }
-  async getProblemOfTheDay(){
+  async getProblemOfTheDay(userId){
     const dat = await this.getDailyTopics();
     const present = dat.filter(
       (data) => data.dateTime.getDate() === new Date().getDate(),
@@ -67,6 +67,33 @@ export class AppService {
     const past = dat.filter(
       (data) => data.dateTime.getDate() <= new Date().getDate(),
     );
+    for (let i = 0; i < past.length; i++) {
+      past[i].status = 'unattempted';
+      const dat = await this.Dtresult.findOne({
+        userId: userId,
+        DailyTopicId: past[i]._id,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (dat) past[i].status = 'attempted';
+    }
+    for (let i = 0; i < present.length; i++) {
+      present[i].status = 'unattempted';
+      const dat = await this.Dtresult.findOne({
+        userId: userId,
+        DailyTopicId: present[i]._id,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (dat) present[i].status = 'attempted';
+    }
+    for (let i = 0; i < upcoming.length; i++) {
+      upcoming[i].status = 'unattempted';
+      const dat = await this.Dtresult.findOne({
+        userId: userId,
+        DailyTopicId: upcoming[i]._id,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (dat) upcoming[i].status = 'attempted';
+    }
     return { present, upcoming, past };
   }
   async getQuestionDetails(questionIdsData) {

@@ -20,5 +20,9 @@ export class DailyTopic {
   questions: any;
   @Prop({})
   productSellId: string;
+  @Prop({})
+  youtubeVideoLink: string;
+  @Prop({})
+  youtubeVideoTitile: string;
 }
 export const dailyTopicSchema = SchemaFactory.createForClass(DailyTopic);
