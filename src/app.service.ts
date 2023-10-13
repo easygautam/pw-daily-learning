@@ -120,12 +120,24 @@ export class AppService {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       rewards = 5;
     }
-    const resultDat =  await this.Dtresult.create({
-      totalScore: totalScore,
-      userId: submitObject.userId,
-      selectedOptions: submitObject.selectedOptions,
+    const existingResultDat = await this.Dtresult.findOne({
       DailyTopicId: submitObject.DailyTopicId,
+      userId: submitObject.userId,
     });
+    let resultDat;
+    if (existingResultDat) {
+      resultDat = await this.Dtresult.findByIdAndUpdate(existingResultDat._id, {
+        totalScore: totalScore,
+        selectedOptions: submitObject.selectedOptions,
+      });
+    } else {
+      resultDat = await this.Dtresult.create({
+        totalScore: totalScore,
+        userId: submitObject.userId,
+        selectedOptions: submitObject.selectedOptions,
+        DailyTopicId: submitObject.DailyTopicId,
+      });
+    }
     return { resultDat, rewards };
   }
   async getSolution(dailyTopicId, userId) {
