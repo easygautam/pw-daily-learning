@@ -62,10 +62,10 @@ export class AppService {
       (data) => data.dateTime.getDate() === new Date().getDate(),
     );
     const upcoming = dat.filter(
-      (data) => data.dateTime.getDate() >= new Date().getDate(),
+      (data) => data.dateTime.getDate() > new Date().getDate(),
     );
     const past = dat.filter(
-      (data) => data.dateTime.getDate() <= new Date().getDate(),
+      (data) => data.dateTime.getDate() < new Date().getDate(),
     );
     for (let i = 0; i < past.length; i++) {
       past[i].status = 'unattempted';
