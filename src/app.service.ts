@@ -152,6 +152,7 @@ export class AppService {
   }
   async sendNotification(topicId) {
     try {
+      let topicDat = await this.DailyTopic.findById(topicId);
       const headers = {
         Authorization:
           'key=AAAAkkbMBJM:APA91bHjqvZCdINMtTbh-Fsm5N8rUiqHh7AkRmOQAw-_bZ9fMxNs5AbzVBk3PeSd43xpuRJkbxzXaV6Us8Svm0Pmm1Pl3KuVQ-kDRbih9aI7Dw6vEQY4M_jRDI2R9EwaSUiGJrOxLfNr',
@@ -159,8 +160,8 @@ export class AppService {
       const body = {
         to: '/topics/daily-topic',
         data: {
-          title: 'New Question ',
-          description: 'Solve this new question',
+          title: 'Aaj ka Concept💡 ',
+          description: `Topic:  ${topicDat.topicName}`,
           type: 'DAILY_TOPIC',
           dataId: topicId,
         },
