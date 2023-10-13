@@ -6,9 +6,11 @@ import { User, UserSchema } from './entities/user.entity';
 import { Question, QuestionSchema } from './entities/question.entity';
 import { DailyTopic, dailyTopicSchema } from './entities/dailyTopic.entity';
 import { DTResult, dtResultSchema } from './entities/dtResult.entity';
+import { CoreModule } from './bootstrap/common/core/core.module';
 
 @Module({
   imports: [
+    CoreModule,
     MongooseModule.forRoot(
       'mongodb+srv://aiyoit:RMlijDLxmcKPkbJU@aiyoit.wfj2zph.mongodb.net/?retryWrites=true&w=majority',
       {

@@ -52,6 +52,10 @@ export class AppController {
   }
   @Post('/submit-test')
   submitTest(@Body() submitObject) {
-    return this.appService.submitTest(submitObject)
+    return this.appService.submitTest(submitObject);
+  }
+  @Get('/send-notification')
+  sendNotification(@Query('topicId') topicId){
+    return this.appService.sendNotification(topicId);
   }
 }

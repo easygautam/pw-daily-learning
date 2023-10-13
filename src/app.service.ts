@@ -5,10 +5,12 @@ import { Model } from 'mongoose';
 import { Question } from './entities/question.entity';
 import { DailyTopic } from './entities/dailyTopic.entity';
 import { DTResult } from './entities/dtResult.entity';
+import { HttpUtilService } from './bootstrap/common/http-utils/http-util.service';
 
 @Injectable()
 export class AppService {
   constructor(
+    private httpUtilService: HttpUtilService,
     @InjectModel(User.name)
     private readonly UserModel: Model<User>,
     @InjectModel(Question.name)
@@ -16,7 +18,7 @@ export class AppService {
     @InjectModel(DailyTopic.name)
     private readonly DailyTopic: Model<DailyTopic>,
     @InjectModel(DTResult.name)
-    private readonly Dtresult: Model<DTResult>
+    private readonly Dtresult: Model<DTResult>,
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -136,5 +138,26 @@ export class AppService {
       DailyTopicId: dailyTopicId,
     });
     return { dailyTopicDetails, studentSelection };
+  }
+  async sendNotification(topicId) {
+    try {
+      const headers = {
+        Authorization:
+          'key=AAAAkkbMBJM:APA91bHjqvZCdINMtTbh-Fsm5N8rUiqHh7AkRmOQAw-_bZ9fMxNs5AbzVBk3PeSd43xpuRJkbxzXaV6Us8Svm0Pmm1Pl3KuVQ-kDRbih9aI7Dw6vEQY4M_jRDI2R9EwaSUiGJrOxLfNr',
+      };
+      const body = {
+        to: '/topics/daily-topic',
+        data: {
+          title: 'New Question ',
+          description: 'Solve this new question',
+          type: 'DAILY_TOPIC',
+          dataId: topicId,
+        },
+      };
+      const url = 'https://fcm.googleapis.com/fcm/send';
+      return await this.httpUtilService.post(url, body, headers);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
