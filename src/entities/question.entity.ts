@@ -20,5 +20,7 @@ export class Question {
   optionD: string;
   @Prop({})
   correctOption: string;
+  @Prop({})
+  solution: string;
 }
 export const QuestionSchema = SchemaFactory.createForClass(Question);
