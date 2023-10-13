@@ -4,6 +4,7 @@ import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { Question } from './entities/question.entity';
 import { DailyTopic } from './entities/dailyTopic.entity';
+import { DTResult } from './entities/dtResult.entity';
 
 @Injectable()
 export class AppService {
@@ -14,6 +15,8 @@ export class AppService {
     private readonly Question: Model<Question>,
     @InjectModel(DailyTopic.name)
     private readonly DailyTopic: Model<DailyTopic>,
+    @InjectModel(DTResult.name)
+    private readonly Dtresult: Model<DTResult>
   ) {}
   getHello(): string {
     return 'Hello World!';
@@ -63,5 +66,26 @@ export class AppService {
         this.Question.findById(questionId),
       ),
     );
+  }
+  async getSolution(questionId){
+    return await this.Question.findById(questionId);
+  }
+  async getDailyTopicById(userId,dailyTopicId){
+    let status = 'unattempted';
+    const dat = await this.Dtresult.findOne({
+      userId: userId,
+      DailyTopicId: dailyTopicId,
+    });
+    console.log("----------dat",dat);
+    if (dat) status = 'attempted';
+
+    let dailyTopicData = await this.DailyTopic.findById(dailyTopicId);
+    const questionPromises = dailyTopicData.questions.map(
+      async (questionId) => {
+        return await this.Question.findById(questionId);
+      });
+    // To get the results, you can use Promise.all
+    const questions = await Promise.all(questionPromises);
+    return { dailyTopicData, status, questions };
   }
 }

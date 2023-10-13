@@ -39,4 +39,15 @@ export class AppController {
     console.log(questionIdsData);
     return this.appService.getQuestionDetails(questionIdsData);
   }
+  @Get('/getSolution')
+  getSolution(@Query('questionId') questionId: any) {
+    return this.appService.getSolution(questionId);
+  }
+  @Get('/get-daily-topic-by-id')
+  getDailyTopicById(
+    @Query('userId') userId,
+    @Query('dailyTopicId') dailyTopicId,
+  ) {
+    return this.appService.getDailyTopicById(userId, dailyTopicId);
+  }
 }

@@ -10,11 +10,11 @@ export type DTResultDocument = DTResult & Document;
 export class DTResult {
   @Prop({})
   DailyTopicId: string;
-  @Prop({})
+  @Prop({ type: Object })
   selectedOptions: any;
   @Prop({})
   userId: string;
   @Prop({})
   totalScore: string;
 }
-export const questionSchema = SchemaFactory.createForClass(DTResult);
+export const dtResultSchema = SchemaFactory.createForClass(DTResult);
