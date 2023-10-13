@@ -128,14 +128,14 @@ export class AppService {
       this.Question.findById(selectedOption.questionId),
     );
     const finalQuestionDetails = await Promise.all(questionDetails);
-    console.log(finalQuestionDetails);
+    // console.log(finalQuestionDetails);
 
     let totalScore = 0;
     let rewards = 0;
-
     submitObject.selectedOptions.map((selectedOption, index) => {
+
       if (
-        selectedOption.selectedOption ==
+        selectedOption.selectedOption ===
         finalQuestionDetails[index].correctOption
       ) {
         totalScore += 1;
@@ -152,7 +152,14 @@ export class AppService {
     });
     let resultDat;
     if (existingResultDat) {
-      resultDat = await this.Dtresult.findByIdAndUpdate(existingResultDat._id, {
+      resultDat = {
+        _id: existingResultDat._id,
+        totalScore: totalScore,
+        selectedOptions: submitObject.selectedOptions,
+        DailyTopicId: submitObject.DailyTopicId,
+        userId: submitObject.userId,
+      };
+       await this.Dtresult.findByIdAndUpdate(existingResultDat._id, {
         totalScore: totalScore,
         selectedOptions: submitObject.selectedOptions,
       });
@@ -164,6 +171,7 @@ export class AppService {
         DailyTopicId: submitObject.DailyTopicId,
       });
     }
+
     return { resultDat, rewards };
   }
   async getSolution(dailyTopicId, userId) {
